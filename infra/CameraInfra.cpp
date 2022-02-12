@@ -12,6 +12,8 @@ using namespace std;
 
 using namespace std::chrono;
 
+#define V4L2_PIX_FMT_Y8       v4l2_fourcc('Y', '8', ' ', ' ') /* Greyscale 8-bit */
+
 #define NUMBER_OF_BUFFERS 8
 #define DS5_STREAM_CONFIG_0 0x4000
 #define DS5_CAMERA_CID_BASE (V4L2_CTRL_CLASS_CAMERA | DS5_STREAM_CONFIG_0)

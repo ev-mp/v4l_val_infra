@@ -70,7 +70,7 @@ string exec(const char *cmd)
 
 string getDriverVersion()
 {
-	string command = "modinfo d4xx";
+	string command = "modinfo /lib/modules/4.9.140-tegra/kernel/drivers/media/i2c/d4xx.ko";
 	string str = exec(command.c_str());
 	std::string delimiter = "\n";
 	//Skip the first line
