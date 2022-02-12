@@ -78,13 +78,13 @@ public:
         }
 
         Sensor depthSensor = cam.GetDepthSensor();
-        Sensor irSensor = cam.GetIRSensor();
+        //Evgeni Sensor irSensor = cam.GetIRSensor();
         Sensor colorSensor = cam.GetColorSensor();
 
         if (_isContent)
         {
             depthSensor.copyFrameData = true;
-            irSensor.copyFrameData = true;
+            //irSensor.copyFrameData = true;
             colorSensor.copyFrameData = true;
         }
 
@@ -101,8 +101,8 @@ public:
         {
             if (streams[f] == StreamType::Depth_Stream)
                 DepthUsed = true;
-            else if (streams[f] == StreamType::IR_Stream)
-                IRUsed = true;
+            // else if (streams[f] == StreamType::IR_Stream)
+            //     IRUsed = true;
             else if (streams[f] == StreamType::Color_Stream)
                 ColorUsed = true;
         }
@@ -114,12 +114,12 @@ public:
                 depthSensor.Configure(profiles[j]);
                 pR.push_back(profiles[j]);
             }
-            else if (profiles[j].streamType == StreamType::IR_Stream)
-            {
-                Logger::getLogger().log("IR Profile Used: " + profiles[j].GetText(), "Test");
-                irSensor.Configure(profiles[j]);
-                pR.push_back(profiles[j]);
-            }
+            // else if (profiles[j].streamType == StreamType::IR_Stream)
+            // {
+            //     Logger::getLogger().log("IR Profile Used: " + profiles[j].GetText(), "Test");
+            //     irSensor.Configure(profiles[j]);
+            //     pR.push_back(profiles[j]);
+            // }
             else if (profiles[j].streamType == StreamType::Color_Stream)
             {
                 Logger::getLogger().log("Color Profile Used: " + profiles[j].GetText(), "Test");
@@ -138,10 +138,10 @@ public:
             depthSensor.Start(AddFrame);
             //std::this_thread::sleep_for(std::chrono::seconds(1));
         }
-        if (IRUsed)
-        {
-            irSensor.Start(AddFrame);
-        }
+        // if (IRUsed)
+        // {
+        //     irSensor.Start(AddFrame);
+        // }
 
         int Iterations = testDuration / iterationDuration;
         for (int j = 0; j < Iterations; j++)
@@ -236,11 +236,11 @@ public:
             depthSensor.Stop();
             depthSensor.Close();
         }
-        if (IRUsed)
-        {
-            irSensor.Stop();
-            irSensor.Close();
-        }
+        // if (IRUsed)
+        // {
+        //     irSensor.Stop();
+        //     irSensor.Close();
+        // }
 
         Logger::getLogger().log("Test Summary:", "Run");
         Logger::getLogger().log(testStatus ? "Pass" : "Fail", "Run");

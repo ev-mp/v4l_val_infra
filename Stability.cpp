@@ -144,13 +144,13 @@ public:
         }
 
         Sensor depthSensor = cam.GetDepthSensor();
-        Sensor irSensor = cam.GetIRSensor();
+        //Evgeni Sensor irSensor = cam.GetIRSensor();
         Sensor colorSensor = cam.GetColorSensor();
 
         if (_isContent)
         {
             depthSensor.copyFrameData = true;
-            irSensor.copyFrameData = true;
+            //irSensor.copyFrameData = true;
             colorSensor.copyFrameData = true;
         }
 
@@ -172,8 +172,8 @@ public:
             {
                 if (StreamCollection[f].streamType == StreamType::Depth_Stream)
                     DepthUsed = true;
-                else if (StreamCollection[f].streamType == StreamType::IR_Stream)
-                    IRUsed = true;
+                //else if (StreamCollection[f].streamType == StreamType::IR_Stream)
+                //    IRUsed = true;
                 else if (StreamCollection[f].streamType == StreamType::Color_Stream)
                     ColorUsed = true;
             }
@@ -193,11 +193,11 @@ public:
                     Logger::getLogger().log("Depth Profile Used: " + StreamCollection[i].GetText(), "Test");
                     depthSensor.Configure(StreamCollection[i]);
                 }
-                else if (StreamCollection[i].streamType == StreamType::IR_Stream)
-                {
-                    Logger::getLogger().log("IR Profile Used: " + StreamCollection[i].GetText(), "Test");
-                    irSensor.Configure(StreamCollection[i]);
-                }
+                // else if (StreamCollection[i].streamType == StreamType::IR_Stream)
+                // {
+                //     Logger::getLogger().log("IR Profile Used: " + StreamCollection[i].GetText(), "Test");
+                //     irSensor.Configure(StreamCollection[i]);
+                // }
                 else if (StreamCollection[i].streamType == StreamType::Color_Stream)
                 {
                     Logger::getLogger().log("Color Profile Used: " + StreamCollection[i].GetText(), "Test");
@@ -220,11 +220,11 @@ public:
                // std::this_thread::sleep_for(std::chrono::seconds(1));
                 //slept+=1;
             }
-            if (IRUsed)
-            {
-                ir_collectFrames = true;
-                irSensor.Start(AddFrame);
-            }
+            //if (IRUsed)
+            //{
+            //    ir_collectFrames = true;
+            //    irSensor.Start(AddFrame);
+            //}
 
             std::this_thread::sleep_for(std::chrono::seconds(testDuration));
             if (_isContent)
@@ -247,12 +247,12 @@ public:
                 depthSensor.Close();
                 //std::this_thread::sleep_for(std::chrono::seconds(1));
             }
-            if (IRUsed)
-            {
-                ir_collectFrames = false;
-                irSensor.Stop();
-                irSensor.Close();
-            }
+            //if (IRUsed)
+            //{
+            //    ir_collectFrames = false;
+            //    irSensor.Stop();
+            //    irSensor.Close();
+            //}
             
 
             met_seq.setParams(MetricDefaultTolerances::get_tolerance_SequentialFrameDrops());

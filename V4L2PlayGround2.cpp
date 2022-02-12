@@ -142,34 +142,34 @@ TEST_F(V4L2BasicTest2, SaveImagesDepthStreamingExample)
 
 TEST_F(V4L2BasicTest2, SaveImagesIRStreamingExample)
 {
-    cout << "=================================================" << endl;
-    cout << "               IRStreamingExample " << endl;
-    cout << "=================================================" << endl;
+    // cout << "=================================================" << endl;
+    // cout << "               IRStreamingExample " << endl;
+    // cout << "=================================================" << endl;
 
-    Camera cam;
-    cam.Init(false);
-    auto irSensor = cam.GetIRSensor();
-    irSensor.copyFrameData = true;
+    // Camera cam;
+    // cam.Init(false);
+    // auto irSensor = cam.GetIRSensor();
+    // irSensor.copyFrameData = true;
 
-    // Depth Configuration
-    Resolution r = {0};
-    r.width = 640;
-    r.height = 480;
-    Profile dP;
-    dP.pixelFormat = V4L2_PIX_FMT_Y8;
-    dP.resolution = r;
-    dP.fps = 30;
-    dP.streamType = StreamType::IR_Stream;
+    // // Depth Configuration
+    // Resolution r = {0};
+    // r.width = 640;
+    // r.height = 480;
+    // Profile dP;
+    // dP.pixelFormat = V4L2_PIX_FMT_Y8;
+    // dP.resolution = r;
+    // dP.fps = 30;
+    // dP.streamType = StreamType::IR_Stream;
 
-    irSensor.Configure(dP);
+    // irSensor.Configure(dP);
 
-    irSensor.Start(save_depthFrameArrived);
+    // irSensor.Start(save_depthFrameArrived);
 
-    std::this_thread::sleep_for(std::chrono::seconds(4));
+    // std::this_thread::sleep_for(std::chrono::seconds(4));
 
-    irSensor.Stop();
+    // irSensor.Stop();
 
-    irSensor.Close();
+    // irSensor.Close();
 }
 
 TEST_F(V4L2BasicTest2, SaveImagesColorStreamingExample)

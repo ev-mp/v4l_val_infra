@@ -53,7 +53,7 @@ public:
 
 
         Sensor depthSensor = cam.GetDepthSensor();
-        Sensor irSensor = cam.GetIRSensor();
+        //Evgeni Sensor irSensor = cam.GetIRSensor();
         Sensor colorSensor = cam.GetColorSensor();
 
         vector<vector<Profile>> profiles = GetProfiles(streams);
@@ -69,8 +69,8 @@ public:
         {
             if (streams[f]==StreamType::Depth_Stream)
                 DepthUsed=true;
-            else if (streams[f]==StreamType::IR_Stream)
-                IRUsed=true;
+            //else if (streams[f]==StreamType::IR_Stream)
+            //    IRUsed=true;
             else if (streams[f]==StreamType::Color_Stream)
                 ColorUsed=true;
         }
@@ -89,12 +89,7 @@ public:
                     pR.push_back(profiles[j][i]);
 
                 }
-                else if (profiles[j][i].streamType==StreamType::IR_Stream)
-                {
-                    Logger::getLogger().log("IR Profile Used: " + profiles[j][i].GetText(), "Test");
-                    irSensor.Configure(profiles[j][i]);
-                    pR.push_back(profiles[j][i]);
-                }
+                //  Evgeni
                 else if (profiles[j][i].streamType==StreamType::Color_Stream)
                 {
                     Logger::getLogger().log("Color Profile Used: " + profiles[j][i].GetText(), "Test");
@@ -121,11 +116,11 @@ public:
                 //std::this_thread::sleep_for(std::chrono::seconds(1));
                 //slept+=1;
             }
-            if (IRUsed)
-            {
-                ir_collectFrames = true;
-                irSensor.Start(AddFrame);
-            }
+            // if (IRUsed)
+            // {
+            //     ir_collectFrames = true;
+            //     irSensor.Start(AddFrame);
+            // }
 
 
             long startTime2 = TimeUtils::getCurrentTimestamp();
@@ -146,12 +141,13 @@ public:
                 depthSensor.Close();
                 //std::this_thread::sleep_for(std::chrono::seconds(1));
             }
-            if (IRUsed)
-            {
-                ir_collectFrames = false;
-                irSensor.Stop();
-                irSensor.Close();
-            }
+            // if (IRUsed)
+            // {
+            // //     irSensor.Stop();
+            //     ir_collectFrames = false;
+            //     irSensor.Stop();
+            //     irSensor.Close();
+            // }
             
             
 

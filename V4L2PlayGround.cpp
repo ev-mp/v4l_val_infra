@@ -503,7 +503,7 @@ TEST_F(V4L2BasicTest, MultiStreamingExample)
     // cam.Init(false);
     auto depthSensor = cam.GetDepthSensor();
     auto colorSensor = cam.GetColorSensor();
-    auto irSensor = cam.GetIRSensor();
+    //auto irSensor = cam.GetIRSensor();
 
     // Depth Configuration
     Resolution r = {0};
@@ -534,22 +534,22 @@ TEST_F(V4L2BasicTest, MultiStreamingExample)
 
     colorSensor.Configure(cP);
     depthSensor.Configure(dP);
-    irSensor.Configure(iP);
+    //irSensor.Configure(iP);
 
 
     colorSensor.Start(colorFrameArrived);
     depthSensor.Start(depthFrameArrived);
-    irSensor.Start(irFrameArrived);
+    //irSensor.Start(irFrameArrived);
 
     std::this_thread::sleep_for(std::chrono::seconds(4));
 
     colorSensor.Stop();
     depthSensor.Stop();
-    irSensor.Stop();
+    //irSensor.Stop();
 
     colorSensor.Close();
     depthSensor.Close();
-    irSensor.Close();
+    //irSensor.Close();
 
     //print frames data
     for (int i = 0; i < depthFrames.size(); i++)

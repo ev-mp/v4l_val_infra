@@ -1115,9 +1115,9 @@ public:
             sensors.push_back(depthSensor);
 
         // Try to add IR sensor
-        Sensor irSensor;
-        if (irSensor.Init(SensorType::IR, openMD))
-            sensors.push_back(irSensor);
+        // Sensor irSensor;
+        // if (irSensor.Init(SensorType::IR, openMD))
+        //     sensors.push_back(irSensor);
 
         // Try to add Color sensor
         Sensor colorSensor;
@@ -1191,15 +1191,15 @@ public:
         throw std::runtime_error("Failed to get Depth Sensor ");
     }
 
-    Sensor GetIRSensor()
-    {
-        for (int i = 0; i < sensors.size(); i++)
-        {
-            if (sensors[i].GetName() == "IR Sensor")
-                return sensors[i];
-        }
-        throw std::runtime_error("Failed to get IR Sensor ");
-    }
+    // Sensor GetIRSensor()
+    // {
+    //     for (int i = 0; i < sensors.size(); i++)
+    //     {
+    //         if (sensors[i].GetName() == "IR Sensor")
+    //             return sensors[i];
+    //     }
+    //     throw std::runtime_error("Failed to get IR Sensor ");
+    // }
 
     Sensor GetColorSensor()
     {

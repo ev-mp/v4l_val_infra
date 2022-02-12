@@ -103,7 +103,7 @@ public:
         metrics.push_back(&frmSizeMetric);
 
         Sensor depthSensor = cam.GetDepthSensor();
-        Sensor irSensor = cam.GetIRSensor();
+        //Evgeni Sensor irSensor = cam.GetIRSensor();
         Sensor colorSensor = cam.GetColorSensor();
         vector<Profile> profiles = GetControlProfiles(stream);
 
@@ -135,23 +135,23 @@ public:
             Logger::getLogger().log("Initializing Control: " + cntrl._controlName + " To Last value in list: " + to_string(cntrl._values[cntrl._values.size() - 1]), "Test");
             res = depthSensor.SetControl(cntrl._controlID, cntrl._values[cntrl._values.size() - 1]);
         }
-        else if (IRUsed)
-        {
-            if (controlName == "Gain" || controlName == "Exposure")
-            {
-                Logger::getLogger().log("Disabling IR AutoExposure ", "Test");
-                res = irSensor.SetControl(V4L2_CID_EXPOSURE_AUTO, 0);
-                Logger::getLogger().log("Disable IR AutoExposure " + (string)(res ? "Passed" : "Failed"), "Test");
-            }
-            if (controlName == "LaserPower")
-            {
-                Logger::getLogger().log("Enabling Laser Power Mode ", "Test");
-                res = irSensor.SetControl(DS5_CAMERA_CID_LASER_POWER, 1);
-                Logger::getLogger().log("Enable Laser Power Mode:" + (string)(res ? "Passed" : "Failed"), "Test");
-            }
-            Logger::getLogger().log("Initializing Control: " + cntrl._controlName + " To Last value in list: " + to_string(cntrl._values[cntrl._values.size() - 1]), "Test");
-            res = irSensor.SetControl(cntrl._controlID, cntrl._values[cntrl._values.size() - 1]);
-        }
+        // else if (IRUsed)
+        // {
+        //     if (controlName == "Gain" || controlName == "Exposure")
+        //     {
+        //         Logger::getLogger().log("Disabling IR AutoExposure ", "Test");
+        //         res = irSensor.SetControl(V4L2_CID_EXPOSURE_AUTO, 0);
+        //         Logger::getLogger().log("Disable IR AutoExposure " + (string)(res ? "Passed" : "Failed"), "Test");
+        //     }
+        //     if (controlName == "LaserPower")
+        //     {
+        //         Logger::getLogger().log("Enabling Laser Power Mode ", "Test");
+        //         res = irSensor.SetControl(DS5_CAMERA_CID_LASER_POWER, 1);
+        //         Logger::getLogger().log("Enable Laser Power Mode:" + (string)(res ? "Passed" : "Failed"), "Test");
+        //     }
+        //     Logger::getLogger().log("Initializing Control: " + cntrl._controlName + " To Last value in list: " + to_string(cntrl._values[cntrl._values.size() - 1]), "Test");
+        //     res = irSensor.SetControl(cntrl._controlID, cntrl._values[cntrl._values.size() - 1]);
+        // }
         else if (ColorUsed)
         {
             if (controlName == "Gain" || controlName == "Exposure")
@@ -179,16 +179,16 @@ public:
                     Logger::getLogger().log("Setting depth exposure value " + (string)(res ? "Passed" : "Failed"), "Test");
                 }
             }
-            else if (IRUsed)
-            {
-                if (controlName == "Gain")
-                {
-                    maxAllowedtExposure = getMaxAllowedExposure(profiles[j].fps, StreamType::Depth_Stream);
-                    Logger::getLogger().log("Setting IR exposure value to: " + to_string(maxAllowedtExposure), "Test");
-                    res = irSensor.SetControl(V4L2_CID_EXPOSURE_ABSOLUTE, maxAllowedtExposure);
-                    Logger::getLogger().log("Setting IR exposure value " + (string)(res ? "Passed" : "Failed"), "Test");
-                }
-            }
+            // else if (IRUsed)
+            // {
+            //     if (controlName == "Gain")
+            //     {
+            //         maxAllowedtExposure = getMaxAllowedExposure(profiles[j].fps, StreamType::Depth_Stream);
+            //         Logger::getLogger().log("Setting IR exposure value to: " + to_string(maxAllowedtExposure), "Test");
+            //         res = irSensor.SetControl(V4L2_CID_EXPOSURE_ABSOLUTE, maxAllowedtExposure);
+            //         Logger::getLogger().log("Setting IR exposure value " + (string)(res ? "Passed" : "Failed"), "Test");
+            //     }
+            // }
             else if (ColorUsed)
             {
                 if (controlName == "Gain")
@@ -209,12 +209,12 @@ public:
                 depthSensor.Configure(profiles[j]);
                 pR.push_back(profiles[j]);
             }
-            else if (stream == StreamType::IR_Stream)
-            {
-                Logger::getLogger().log("IR Profile Used: " + profiles[j].GetText(), "Test");
-                irSensor.Configure(profiles[j]);
-                pR.push_back(profiles[j]);
-            }
+            // else if (stream == StreamType::IR_Stream)
+            // {
+            //     Logger::getLogger().log("IR Profile Used: " + profiles[j].GetText(), "Test");
+            //     irSensor.Configure(profiles[j]);
+            //     pR.push_back(profiles[j]);
+            // }
             else if (stream == StreamType::Color_Stream)
             {
                 Logger::getLogger().log("Color Profile Used: " + profiles[j].GetText(), "Test");
@@ -228,10 +228,10 @@ public:
             {
                 depthSensor.Start(AddFrame);
             }
-            if (IRUsed)
-            {
-                irSensor.Start(AddFrame);
-            }
+            // if (IRUsed)
+            // {
+            //     irSensor.Start(AddFrame);
+            // }
             if (ColorUsed)
             {
                 colorSensor.Start(AddFrame);
@@ -253,8 +253,8 @@ public:
                 long changeTime = TimeUtils::getCurrentTimestamp();
                 if (DepthUsed || IRUsed)
                     res = depthSensor.SetControl(cntrl._controlID, cntrl._values[i]);
-                if (IRUsed)
-                    res = irSensor.SetControl(cntrl._controlID, cntrl._values[i]);
+                // if (IRUsed)
+                //     res = irSensor.SetControl(cntrl._controlID, cntrl._values[i]);
                 if (ColorUsed)
                     res = colorSensor.SetControl(cntrl._controlID, cntrl._values[i]);
 
@@ -311,11 +311,11 @@ public:
                 depthSensor.Stop();
                 depthSensor.Close();
             }
-            if (IRUsed)
-            {
-                irSensor.Stop();
-                irSensor.Close();
-            }
+            // if (IRUsed)
+            // {
+            //     irSensor.Stop();
+            //     irSensor.Close();
+            // }
             if (ColorUsed)
             {
                 colorSensor.Stop();
@@ -484,7 +484,7 @@ public:
         cntrl = ControlsGenerator::get_control_conf(controlName);
 
         Sensor depthSensor = cam.GetDepthSensor();
-        Sensor irSensor = cam.GetIRSensor();
+        //Evgeni Sensor irSensor = cam.GetIRSensor();
         Sensor colorSensor = cam.GetColorSensor();
 
         bool DepthUsed = false;
@@ -513,23 +513,23 @@ public:
             Logger::getLogger().log("Initializing Depth Control: " + cntrl._controlName + " To Last value in list: " + to_string(cntrl._values[cntrl._values.size() - 1]), "Test");
             res = depthSensor.SetControl(cntrl._controlID, cntrl._values[cntrl._values.size() - 1]);
         }
-        else if (IRUsed)
-        {
-            if (controlName == "Gain" || controlName == "Exposure")
-            {
-                Logger::getLogger().log("Disabling IR AutoExposure ", "Test");
-                res = irSensor.SetControl(V4L2_CID_EXPOSURE_AUTO, 0);
-                Logger::getLogger().log("Disable IR AutoExposure " + (string)(res ? "Passed" : "Failed"), "Test");
-            }
-            if (controlName == "LaserPower")
-            {
-                Logger::getLogger().log("Enabling IR Laser Power Mode ", "Test");
-                res = irSensor.SetControl(DS5_CAMERA_CID_LASER_POWER, 1);
-                Logger::getLogger().log("Enable IR Laser Power Mode:" + (string)(res ? "Passed" : "Failed"), "Test");
-            }
-            Logger::getLogger().log("Initializing IR Control: " + cntrl._controlName + " To Last value in list: " + to_string(cntrl._values[cntrl._values.size() - 1]), "Test");
-            res = irSensor.SetControl(cntrl._controlID, cntrl._values[cntrl._values.size() - 1]);
-        }
+        // else if (IRUsed)
+        // {
+        //     if (controlName == "Gain" || controlName == "Exposure")
+        //     {
+        //         Logger::getLogger().log("Disabling IR AutoExposure ", "Test");
+        //         res = irSensor.SetControl(V4L2_CID_EXPOSURE_AUTO, 0);
+        //         Logger::getLogger().log("Disable IR AutoExposure " + (string)(res ? "Passed" : "Failed"), "Test");
+        //     }
+        //     if (controlName == "LaserPower")
+        //     {
+        //         Logger::getLogger().log("Enabling IR Laser Power Mode ", "Test");
+        //         res = irSensor.SetControl(DS5_CAMERA_CID_LASER_POWER, 1);
+        //         Logger::getLogger().log("Enable IR Laser Power Mode:" + (string)(res ? "Passed" : "Failed"), "Test");
+        //     }
+        //     Logger::getLogger().log("Initializing IR Control: " + cntrl._controlName + " To Last value in list: " + to_string(cntrl._values[cntrl._values.size() - 1]), "Test");
+        //     res = irSensor.SetControl(cntrl._controlID, cntrl._values[cntrl._values.size() - 1]);
+        // }
         else if (ColorUsed)
         {
             if (controlName == "Gain" || controlName == "Exposure")
@@ -551,8 +551,8 @@ public:
             Logger::getLogger().log("Setting Control: " + cntrl._controlName + " to Value: " + to_string(cntrl._values[j]), "Test");
             if (DepthUsed)
                 setRes = depthSensor.SetControl(cntrl._controlID, cntrl._values[j]);
-            else if (IRUsed)
-                setRes = irSensor.SetControl(cntrl._controlID, cntrl._values[j]);
+            // else if (IRUsed)
+            //     setRes = irSensor.SetControl(cntrl._controlID, cntrl._values[j]);
             else if (ColorUsed)
                 setRes = colorSensor.SetControl(cntrl._controlID, cntrl._values[j]);
             Logger::getLogger().log("Setting Control: " + (string)(setRes ? "Passed" : "Failed"), "Test");
@@ -563,8 +563,8 @@ public:
             double currValue;
             if (DepthUsed)
                 currValue = depthSensor.GetControl(cntrl._controlID);
-            else if (IRUsed)
-                currValue = irSensor.GetControl(cntrl._controlID);
+            // else if (IRUsed)
+            //     currValue = irSensor.GetControl(cntrl._controlID);
             else if (ColorUsed)
                 currValue = colorSensor.GetControl(cntrl._controlID);
             MetricResult result;
